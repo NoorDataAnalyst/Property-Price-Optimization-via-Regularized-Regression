@@ -169,49 +169,37 @@ elif page == "4. Analytical Q&A":
     st.markdown("""
 # Housing Analysis: Analytical Questions & Answers
 
-### 1. What indicators in the dataset suggest the presence of multicollinearity?
 
+### 1. What indicators in the dataset suggest the presence of multicollinearity?
 Looking at the **Correlation Heatmap**, you can see very high correlation values (near 1.0) between variables like `median_income` and `income_index`, or `square_footage` and `living_area_index`. When two or more variables tell the "same story," it indicates multicollinearity.
 
 ### 2. Why might Ordinary Least Squares (OLS) regression perform poorly in this scenario?
-
 OLS tries to find the best fit by looking at every variable equally. When you have multicollinearity (like the variables mentioned above), OLS becomes "unstable." It struggles to decide which variable is actually responsible for the price change, leading to wildly fluctuating coefficients and poor predictions on new data.
 
 ### 3. How would you detect overfitting in the baseline model?
-
 You compare the model's performance on the **Training Data** vs. the **Test Data**. If your $R^2$ is very high (e.g., 0.95) on the training data but much lower (e.g., 0.70) on the test data, the model has "memorized" the noise in the training set rather than learning general patterns. This gap is a clear sign of overfitting.
 
 ### 4. What is the conceptual difference between L1 and L2 regularization?
-
 * **L1 (Lasso):** Think of this as a "Slayer." It can shrink a coefficient all the way to **zero**, effectively removing that variable from the model.
-
 * **L2 (Ridge):** Think of this as a "Shrinker." It reduces the size of coefficients but **never** makes them exactly zero. It keeps all variables but minimizes their impact.
 
 ### 5. How does Ridge regression affect coefficient magnitude compared to OLS?
-
 Ridge regression adds a penalty based on the square of the coefficients. This forces the coefficients to be **smaller (closer to zero)** than they would be in OLS. It "mutes" the variables so that no single variable has an unfairly large influence on the price prediction.
 
 ### 6. Why does Lasso regression perform feature selection?
-
 Because Lasso uses the absolute value of the coefficients in its penalty (L1), the mathematical "shape" of this penalty has sharp corners at zero. During optimization, it often hits these corners, forcing less important variables (like redundant indices) to have a coefficient of **exactly 0.0**, essentially "selecting" only the best features.
 
 ### 7. Which model would you prefer if interpretability is more important?
-
 **Lasso Regression.** Because Lasso removes useless or redundant variables (by setting them to zero), you end up with a shorter, simpler list of factors that actually affect the house price. It is much easier to explain 5 key drivers to a client than 17 overlapping ones.
 
 ### 8. How does feature scaling influence Ridge and Lasso results?
-
 Regularization penalizes the *size* of the coefficients. If `median_income` is in the tens of thousands and `bedrooms` is a single digit, the model will unfairly penalize the income variable just because its numbers are bigger. **Scaling** ensures all variables are on the same playing field (e.g., 0 to 1) so the penalty is applied fairly.
 
 ### 9. What happens when the regularization parameter (λ) is very large?
-
 * As $\lambda$ (Alpha) increases, the penalty becomes heavier.
-
 * The coefficients shrink closer and closer to zero.
-
 * The model becomes **simpler** but potentially **underfits** (it becomes too "lazy" to learn the actual patterns in the data).
 
 ### 10. Can removing correlated variables manually be an alternative to regularization?
-
 **Yes, but it's less efficient.** You could manually drop `income_index` if you already have `median_income`. However, in complex datasets with hundreds of variables, doing this manually is difficult and prone to human error. Regularization (especially Lasso) does this automatically and mathematically determines which variable is better to keep based on the actual target data.
     """)
